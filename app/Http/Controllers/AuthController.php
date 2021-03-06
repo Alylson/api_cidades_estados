@@ -58,4 +58,15 @@ class AuthController extends Controller
         ]);
     }
 
+    /**
+     * Logout Usuario (Invalidar o token)
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function logout() {
+        auth()->logout();
+
+        return response()->json(['message' => 'User successfully signed out']);
+    }
+
 }
