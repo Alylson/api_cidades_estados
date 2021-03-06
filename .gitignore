@@ -1,3 +1,5 @@
+# LaravelPHP specific files #
+##########################
 /node_modules
 /public/hot
 /public/storage
@@ -11,3 +13,23 @@ Homestead.json
 Homestead.yaml
 npm-debug.log
 yarn-error.log
+composer.lock
+package-lock.json
+
+# Tool specific files #
+#######################
+*~ # vim
+*.swp # vim
+*.swo # vim
+*.sublime-* # sublime text
+*.tmlanguage.cache # sublime text & textmate
+*.tmPreferences.cache # sublime text & textmate
+*.stTheme.cache # cache files for sublime text
+.settings/* # Eclipse
+.idea/* # JetBrains, aka PHPStorm, IntelliJ IDEA
+.idea/workspace.xml
+.idea/deployment.xml
+nbproject/* # NetBeans
+.vscode # Visual Studio Code
+.sass-cache/ # Sass preprocessor
+.idea/php.xml
