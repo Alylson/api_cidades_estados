@@ -24,8 +24,8 @@ class Estado extends Model
     protected $guarded = ['id'];
     protected $primaryKey = 'id';
 
-    function cidades()
+    function cidade()
     {
-        return $this->hasMany(Cidade::class);
+        return $this->hasOne(Cidade::class);
     }
 }
