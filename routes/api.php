@@ -18,19 +18,20 @@ use App\Http\Controllers\CidadeController;
 */
 
 // Rotas para autenticacao
+Route::post('auth/login', [AuthController::class, 'login']);
+
 Route::group([
-    'middleware' => 'api',
+    'middleware' => 'auth:api',
     'prefix' => 'auth'
     ],
     function ($router) {
-    Route::post('/login', [AuthController::class, 'login']);
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/authUser', [AuthController::class, 'getAuthUser']);
 });
 
 // Rotas para crud estados
 Route::group([
-    'middleware' => 'api',
+    'middleware' => 'auth:api',
     'prefix' => 'estado'
     ],
     function ($router) {
@@ -43,7 +44,7 @@ Route::group([
 
 // Rotas para crud cidades
 Route::group([
-    'middleware' => 'api',
+    'middleware' => 'auth:api',
     'prefix' => 'cidade'
     ],
     function ($router) {
