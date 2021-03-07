@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Cidade;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use App\Http\Resources\CidadeResource;
 
 class CidadeController extends Controller
 {
@@ -29,7 +31,7 @@ class CidadeController extends Controller
         $data = $request->all();
 
         $validator = Validator::make($data, [
-            'nome' => 'required|max:255'
+            'nome' => 'required|max:255|unique:tb_cidade'
         ]);
 
         if ($validator->fails()) {
@@ -61,7 +63,17 @@ class CidadeController extends Controller
      */
     public function atualizarCidade(Request $request, Cidade $cidade)
     {
-        $cidade->update($request->all());
+        $data = $request->all();
+
+        $validator = Validator::make($data, [
+            'nome' => 'required|max:255|unique:tb_cidade'
+        ]);
+
+        if ($validator->fails()) {
+            return response(['error' => $validator->errors(), 'Validation Error']);
+        }
+
+        $cidade->update($data);
 
         return response(['cidade' => new CidadeResource($cidade), 'message' => 'Update successfully'], 200);
     }

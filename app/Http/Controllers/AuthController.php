@@ -8,18 +8,6 @@ use Validator;
 class AuthController extends Controller
 {
     /**
-     * Cria nova instancia AuthController
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth:api', ['except' => ['login', 'register']]);
-    }
-
-    /**
-     * Get JWT credentials
-     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function login(Request $request)
@@ -58,7 +46,7 @@ class AuthController extends Controller
     }
 
     /**
-     * Logout Usuario (Invalidar o token)
+     * Logout Usuario (Invalidar token)
      *
      * @return \Illuminate\Http\JsonResponse
      */
@@ -69,6 +57,10 @@ class AuthController extends Controller
         return response()->json(['message' => 'User successfully signed out']);
     }
 
+    /**
+     * Get usuario logado
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getAuthUser()
     {
         if (!$user = auth()->user()) {
@@ -77,5 +69,4 @@ class AuthController extends Controller
 
         return response()->json(auth()->user());
     }
-
 }

@@ -31,8 +31,8 @@ class EstadoController extends Controller
         $data = $request->all();
 
         $validator = Validator::make($data, [
-            'uf' => 'required|max:2',
-            'nome' => 'required|max:255'
+            'uf' => 'required|max:2|unique:tb_estado',
+            'nome' => 'required|max:255|unique:tb_estado'
         ]);
 
         if ($validator->fails()) {
@@ -64,7 +64,18 @@ class EstadoController extends Controller
      */
     public function atualizarEstado(Request $request, Estado $estado)
     {
-        $estado->update($request->all());
+        $data = $request->all();
+
+        $validator = Validator::make($data, [
+            'uf' => 'required|max:2|unique:tb_estado',
+            'nome' => 'required|max:255|unique:tb_estado'
+        ]);
+
+        if ($validator->fails()) {
+            return response(['error' => $validator->errors(), 'Validation Error']);
+        }
+
+        $estado->update($data);
 
         return response(['estado' => new EstadoResource($estado), 'message' => 'Update successfully'], 200);
     }
