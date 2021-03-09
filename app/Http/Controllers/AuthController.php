@@ -64,9 +64,9 @@ class AuthController extends Controller
     public function getAuthUser()
     {
         if (!$user = auth()->user()) {
-            return response()->json(['error' => 'Usuário não encontrado'], 404);
+            return response()->json(['error' => 'User cannot found'], 404);
         }
 
-        return response()->json(auth()->user());
+        return response()->json(auth()->user(), 200);
     }
 }

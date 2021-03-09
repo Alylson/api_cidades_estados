@@ -59,36 +59,46 @@ class EstadoController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Estado  $estado
      * @return \Illuminate\Http\Response
      */
-    public function atualizarEstado(Request $request, Estado $estado)
+    public function atualizarEstado(Request $request, $id)
     {
-        $data = $request->all();
+        $estado = $request->all();
+        $data = Estado::find($id);
 
-        $validator = Validator::make($data, [
-            'uf' => 'required|max:2|unique:tb_estado',
-            'nome' => 'required|max:255|unique:tb_estado'
+        $validator = Validator::make($estado, [
+            'uf' => 'required',
+            'nome' => 'required'
         ]);
 
-        if ($validator->fails()) {
-            return response(['error' => $validator->errors(), 'Validation Error']);
+        if($validator->fails()){
+            return $this->sendError('Validation Error.', $validator->errors());
         }
 
-        $estado->update($data);
+        Estado::where('id', $data->id)
+            ->update([
+                'uf' => $request->get('uf'),
+                'nome' => $request->get('nome')]
+            );
 
-        return response(['estado' => new EstadoResource($estado), 'message' => 'Update successfully'], 200);
+        return response(['estado' => new EstadoResource($estado),
+            'message' => 'Update successfully'
+           ],200);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Estado  $estado
      * @return \Illuminate\Http\Response
      */
-    public function excluirEstado(Estado $estado)
+    public function excluirEstado($id)
     {
-        $estado->delete();
+        $data = Estado::find($id);
+
+        if(!$data) {
+            return response(['message' => 'State cannot found'],404);
+        }
+        $data->delete();
 
         return response(['message' => 'Deleted']);
     }

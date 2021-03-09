@@ -58,35 +58,46 @@ class CidadeController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Cidade  $cidade
      * @return \Illuminate\Http\Response
      */
-    public function atualizarCidade(Request $request, Cidade $cidade)
+    public function atualizarCidade(Request $request, $id)
     {
-        $data = $request->all();
+        $cidade = $request->all();
+        $data = Cidade::find($id);
 
-        $validator = Validator::make($data, [
-            'nome' => 'required|max:255|unique:tb_cidade'
+        $validator = Validator::make($cidade, [
+            'nome' => 'required|max:255',
+            'estado_id' => 'required|integer'
         ]);
 
-        if ($validator->fails()) {
-            return response(['error' => $validator->errors(), 'Validation Error']);
+        if($validator->fails()){
+            return $this->sendError('Validation Error.', $validator->errors());
         }
 
-        $cidade->update($data);
+        Cidade::where('id', $data->id)
+            ->update([
+                    'nome' => $request->get('nome'),
+                    'estado_id' => $request->get('estado_id')]
+            );
 
-        return response(['cidade' => new CidadeResource($cidade), 'message' => 'Update successfully'], 200);
+        return response(['cidade' => new CidadeResource($cidade),
+            'message' => 'Update successfully'
+        ],200);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Cidade  $cidade
      * @return \Illuminate\Http\Response
      */
-    public function excluirCidade(Cidade $cidade)
+    public function excluirCidade($id)
     {
-        $cidade->delete();
+        $data = Cidade::find($id);
+
+        if(!$data) {
+            return response(['message' => 'City cannot found'],404);
+        }
+        $data->delete();
 
         return response(['message' => 'Deleted']);
     }
