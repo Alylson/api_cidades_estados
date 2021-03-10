@@ -26,6 +26,6 @@ class Cidade extends Model
 
     function estado()
     {
-        return $this->hasOne(Estado::class);
+        return $this->belongsTo(Estado::class);
     }
 }

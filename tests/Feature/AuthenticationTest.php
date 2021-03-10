@@ -20,4 +20,22 @@ class AuthenticationTest extends TestCase
             ->assertStatus(200)
             ->assertJsonStructure(['token_type','expires_in','access_token']);
     }
+
+    /**
+     * @test
+     * Test Must Enter Email and Password
+     */
+    public function testMustEnterEmailAndPassword()
+    {
+        $body = [
+            'email' => '',
+            'password' => ''
+        ];
+
+        $this->json('POST','/api/auth/login',$body,['Accept' => 'application/json'])
+            ->assertStatus(422)
+            ->assertJson([
+                'error' => 'This field is required.'
+            ]);
+    }
 }
