@@ -67,3 +67,87 @@ Com isso a API está instalada.
     body: form-data
     e-mail: admin@admin.com
     senha: desafio01
+
+###### Logout
+
+    method: POST
+    url: http://localhost:8000/api/auth/logout
+    Headers: Authorization: Bearer {token}
+
+###### User Detalhe
+
+    method: GET
+    url: http://localhost:8000/api/auth/authUser
+    Headers: Authorization: Bearer {token}
+
+###### Estados
+
+    method: GET
+    url: http://localhost:8000/api/estado/index
+    Headers: Authorization: Bearer {token}
+
+###### Estado por Id
+
+    method: GET
+    url: http://localhost:8000/api/estado/{id}
+    Headers: Authorization: Bearer {token}
+
+###### Cadastrar Estado
+
+    method: POST
+    url: http://localhost:8000/api/estado/cadastrar
+    Headers: Authorization: Bearer {token}
+    Content-Type: application/json
+    Accept: application/json
+    Body: { "chave": "valor" }
+
+###### Atualizar Estado
+
+    method: PUT  
+    url: http://localhost:8000/api/estado/atualizar/{id}
+    Headers: Authorization: Bearer {token}
+    Content-Type: application/json
+    Accept: application/json
+    Body: { "chave": "valor" }
+
+###### Excluir Estado
+
+    method: DELETE
+    url: http://localhost:8000/api/estado/excluir/1
+    Headers: Authorization: Bearer {token}
+    
+###### Cidades
+
+    method: GET
+    url: http://localhost:8000/api/cidade/index
+    Headers: Authorization: Bearer {token}
+
+###### Cidade por Id
+
+    method: GET
+    url: http://localhost:8000/api/cidade/{id}
+    Headers: Authorization: Bearer {token}
+
+###### Cadastrar Cidade
+
+    method: POST
+    url: http://localhost:8000/api/cidade/cadastrar
+    Headers: Authorization: Bearer {token}
+    Content-Type: application/json
+    Accept: application/json
+    Body: { "chave": "valor" }
+
+###### Atualizar Cidade
+
+    method: PUT  
+    url: http://localhost:8000/api/cidade/atualizar/{id}
+    Headers: Authorization: Bearer {token}
+    Content-Type: application/json
+    Accept: application/json
+    Body: { "chave": "valor" }
+
+###### Excluir Cidade
+
+    method: DELETE
+    url: http://localhost:8000/api/cidade/excluir/{id}
+    Headers: Authorization: Bearer {token}    
