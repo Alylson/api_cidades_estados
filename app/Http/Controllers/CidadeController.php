@@ -14,7 +14,7 @@ class CidadeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function listarCidades()
+    public function index()
     {
         $cidades = Cidade::with('estado')->get();
         return response([
@@ -28,7 +28,7 @@ class CidadeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function cadastrarCidade(Request $request)
+    public function store(Request $request)
     {
         $data = $request->all();
 
@@ -57,7 +57,7 @@ class CidadeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function buscarCidadePorId($id)
+    public function show($id)
     {
         $data = Cidade::with('estado')->where('id', $id)->get();
         if (!$data) {
@@ -76,7 +76,7 @@ class CidadeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function atualizarCidade(Request $request, $id)
+    public function update(Request $request, $id)
     {
         $data = Cidade::find($id);
         if (!$data) {
@@ -109,7 +109,7 @@ class CidadeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function excluirCidade($id)
+    public function destroy($id)
     {
         $data = Cidade::find($id);
 

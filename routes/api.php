@@ -29,27 +29,7 @@ Route::group([
 });
 
 // Rotas para crud estados
-Route::group([
-    'middleware' => 'auth:api',
-    'prefix' => 'estado'
-    ],
-    function ($router) {
-    Route::get('index',[EstadoController::class, 'listarEstados']);
-    Route::get('{id}',[EstadoController::class, 'buscarEstadoPorId']);
-    Route::post('cadastrar',[EstadoController::class, 'cadastrarEstado']);
-    Route::put('atualizar/{id}',[EstadoController::class, 'atualizarEstado']);
-    Route::delete('excluir/{id}',[EstadoController::class, 'excluirEstado']);
-});
+Route::resource('estado',EstadoController::class)->middleware('auth:api');
 
 // Rotas para crud cidades
-Route::group([
-    'middleware' => 'auth:api',
-    'prefix' => 'cidade'
-    ],
-    function ($router) {
-    Route::get('index',[CidadeController::class, 'listarCidades']);
-    Route::get('{id}',[CidadeController::class, 'buscarCidadePorId']);
-    Route::post('cadastrar',[CidadeController::class, 'cadastrarCidade']);
-    Route::put('atualizar/{id}',[CidadeController::class, 'atualizarCidade']);
-    Route::delete('excluir/{id}',[CidadeController::class, 'excluirCidade']);
-});
+Route::resource('cidade',CidadeController::class)->middleware('auth:api');

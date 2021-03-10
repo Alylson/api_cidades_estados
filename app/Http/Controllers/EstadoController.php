@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Repositories\Contracts\EstadoRepositoryInterface;
 use Illuminate\Http\Request;
 use App\Models\Estado;
 use Illuminate\Support\Facades\Validator;
@@ -14,9 +15,10 @@ class EstadoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function listarEstados()
+    public function index(EstadoRepositoryInterface $model)
     {
-        $estados = Estado::with('cidade')->get();
+        $estados = $model->withCidade();
+
         return response([
             'estados' => EstadoResource::collection($estados),
             'message' => 'Retrieved successfully'
@@ -29,7 +31,7 @@ class EstadoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function cadastrarEstado(Request $request)
+    public function store(Request $request)
     {
         $data = $request->all();
 
@@ -52,7 +54,7 @@ class EstadoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function buscarEstadoPorId($id)
+    public function show($id)
     {
         $data = Estado::with('cidade')->where('id', $id)->get();
         if (!$data) {
@@ -71,7 +73,7 @@ class EstadoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function atualizarEstado(Request $request, $id)
+    public function update(Request $request, $id)
     {
         $data = Estado::find($id);
         if (!$data) {
@@ -104,7 +106,7 @@ class EstadoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function excluirEstado($id)
+    public function destroy($id)
     {
         $data = Estado::find($id);
 
