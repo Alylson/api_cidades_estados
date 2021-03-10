@@ -16,8 +16,11 @@ class EstadoController extends Controller
      */
     public function listarEstados()
     {
-        $estados = Estado::all();
-        return response([ 'estados' => EstadoResource::collection($estados), 'message' => 'Retrieved successfully'], 200);
+        $estados = Estado::with('cidade')->get();
+        return response([
+            'estados' => EstadoResource::collection($estados),
+            'message' => 'Retrieved successfully'
+        ], 200);
     }
 
     /**
@@ -47,12 +50,19 @@ class EstadoController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Estado  $estado
      * @return \Illuminate\Http\Response
      */
-    public function buscarEstadoPorId(Estado $estado)
+    public function buscarEstadoPorId($id)
     {
-        return response(['estado' => new EstadoResource($estado), 'message' => 'Retrieved successfully'], 200);
+        $data = Estado::with('cidade')->where('id', $id)->get();
+        if (!$data) {
+            return response(['message' => 'State not found'], 404);
+        }
+
+        return response([
+            'estado' => new EstadoResource($data),
+            'message' => 'Retrieved successfully'
+        ], 200);
     }
 
     /**
@@ -63,9 +73,12 @@ class EstadoController extends Controller
      */
     public function atualizarEstado(Request $request, $id)
     {
-        $estado = $request->all();
         $data = Estado::find($id);
+        if (!$data) {
+            return response(['message' => 'State not found'], 404);
+        }
 
+        $estado = $request->all();
         $validator = Validator::make($estado, [
             'uf' => 'required',
             'nome' => 'required'
