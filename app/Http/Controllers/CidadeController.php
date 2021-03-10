@@ -16,14 +16,16 @@ class CidadeController extends Controller
      */
     public function listarCidades()
     {
-        $cidades = Cidade::all();
-        return response([ 'cidades' => CidadeResource::collection($cidades), 'message' => 'Retrieved successfully'], 200);
+        $cidades = Cidade::with('estado')->get();
+        return response([
+            'cidades' => CidadeResource::collection($cidades),
+            'message' => 'Retrieved successfully'
+        ], 200);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function cadastrarCidade(Request $request)
@@ -31,27 +33,41 @@ class CidadeController extends Controller
         $data = $request->all();
 
         $validator = Validator::make($data, [
-            'nome' => 'required|max:255|unique:tb_cidade'
+            'nome' => 'required|max:255|unique:tb_cidade',
+            'estado_id' => 'required|integer'
         ]);
 
         if ($validator->fails()) {
-            return response(['error' => $validator->errors(), 'Validation Error']);
+            return response([
+                'error' => $validator->errors(),
+                'Validation Error'
+                ]);
         }
 
         $cidade = Cidade::create($data);
 
-        return response(['cidade' => new CidadeResource($cidade), 'message' => 'Created successfully'], 201);
+        return response([
+            'cidade' => new CidadeResource($cidade),
+            'message' => 'Created successfully'
+            ], 201);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Cidade  $cidade
      * @return \Illuminate\Http\Response
      */
-    public function buscarCidadePorId(Cidade $cidade)
+    public function buscarCidadePorId($id)
     {
-        return response(['cidade' => new CidadeResource($cidade), 'message' => 'Retrieved successfully'], 200);
+        $data = Cidade::with('estado')->where('id', $id)->get();
+        if (!$data) {
+            return response(['message' => 'Cidade not found'], 404);
+        }
+
+        return response([
+            'cidade' => new CidadeResource($data),
+            'message' => 'Retrieved successfully'
+        ], 200);
     }
 
     /**
@@ -62,9 +78,12 @@ class CidadeController extends Controller
      */
     public function atualizarCidade(Request $request, $id)
     {
-        $cidade = $request->all();
         $data = Cidade::find($id);
+        if (!$data) {
+            return response(['message' => 'Cidade not found'], 404);
+        }
 
+        $cidade = $request->all();
         $validator = Validator::make($cidade, [
             'nome' => 'required|max:255',
             'estado_id' => 'required|integer'
