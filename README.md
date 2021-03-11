@@ -83,19 +83,19 @@ Com isso a API está instalada.
 ###### Estados
 
     method: GET
-    url: http://localhost:8000/api/estado/index
+    url: http://localhost:8000/api/estado
     Headers: Authorization: Bearer {token}
 
 ###### Estado por Id
 
     method: GET
-    url: http://localhost:8000/api/estado/{id}
+    url: http://localhost:8000/api/estado/show/{id}
     Headers: Authorization: Bearer {token}
 
 ###### Cadastrar Estado
 
     method: POST
-    url: http://localhost:8000/api/estado/cadastrar
+    url: http://localhost:8000/api/estado/store
     Headers: Authorization: Bearer {token}
     Content-Type: application/json
     Accept: application/json
@@ -104,7 +104,7 @@ Com isso a API está instalada.
 ###### Atualizar Estado
 
     method: PUT  
-    url: http://localhost:8000/api/estado/atualizar/{id}
+    url: http://localhost:8000/api/estado/update/{id}
     Headers: Authorization: Bearer {token}
     Content-Type: application/json
     Accept: application/json
@@ -113,25 +113,25 @@ Com isso a API está instalada.
 ###### Excluir Estado
 
     method: DELETE
-    url: http://localhost:8000/api/estado/excluir/1
+    url: http://localhost:8000/api/estado/destroy/1
     Headers: Authorization: Bearer {token}
     
 ###### Cidades
 
     method: GET
-    url: http://localhost:8000/api/cidade/index
+    url: http://localhost:8000/api/cidade
     Headers: Authorization: Bearer {token}
 
 ###### Cidade por Id
 
     method: GET
-    url: http://localhost:8000/api/cidade/{id}
+    url: http://localhost:8000/api/cidade/show/{id}
     Headers: Authorization: Bearer {token}
 
 ###### Cadastrar Cidade
 
     method: POST
-    url: http://localhost:8000/api/cidade/cadastrar
+    url: http://localhost:8000/api/cidade/store
     Headers: Authorization: Bearer {token}
     Content-Type: application/json
     Accept: application/json
@@ -140,7 +140,7 @@ Com isso a API está instalada.
 ###### Atualizar Cidade
 
     method: PUT  
-    url: http://localhost:8000/api/cidade/atualizar/{id}
+    url: http://localhost:8000/api/cidade/update/{id}
     Headers: Authorization: Bearer {token}
     Content-Type: application/json
     Accept: application/json
@@ -149,5 +149,5 @@ Com isso a API está instalada.
 ###### Excluir Cidade
 
     method: DELETE
-    url: http://localhost:8000/api/cidade/excluir/{id}
+    url: http://localhost:8000/api/cidade/destroy/{id}
     Headers: Authorization: Bearer {token}    
