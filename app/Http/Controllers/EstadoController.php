@@ -17,7 +17,7 @@ class EstadoController extends Controller
      */
     public function index(EstadoRepositoryInterface $model)
     {
-        $estados = $model->withCidade();
+        $estados = $model->estadoWithCidade();
 
         return response([
             'estados' => EstadoResource::collection($estados),
@@ -41,7 +41,7 @@ class EstadoController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response(['error' => $validator->errors(), 'Validation Error']);
+            return response(['error' => $validator->errors(), 'Validation Error'],420);
         }
 
         $estado = Estado::create($data);
@@ -54,9 +54,10 @@ class EstadoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id, EstadoRepositoryInterface $model)
     {
-        $data = Estado::with('cidade')->where('id', $id)->get();
+        $data = $model->estadoWithCidadeId($id);
+
         if (!$data) {
             return response(['message' => 'State not found'], 404);
         }
@@ -73,9 +74,9 @@ class EstadoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id, EstadoRepositoryInterface $model)
     {
-        $data = Estado::find($id);
+        $data = $model->findEstado($id);
         if (!$data) {
             return response(['message' => 'State not found'], 404);
         }
@@ -86,15 +87,11 @@ class EstadoController extends Controller
             'nome' => 'required'
         ]);
 
-        if($validator->fails()){
-            return $this->sendError('Validation Error.', $validator->errors());
+        if ($validator->fails()) {
+            return response(['error' => $validator->errors(), 'Validation Error'],420);
         }
 
-        Estado::where('id', $data->id)
-            ->update([
-                'uf' => $request->get('uf'),
-                'nome' => $request->get('nome')]
-            );
+        $model->whereEstadoId($request, $id);
 
         return response(['estado' => new EstadoResource($estado),
             'message' => 'Update successfully'
