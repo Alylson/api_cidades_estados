@@ -66,7 +66,7 @@ Com isso a API está instalada.
     url: http://localhost:8000/api/auth/login
     body: form-data
     e-mail: admin@admin.com
-    senha: desafio01
+    senha: 123456
 
 ###### Logout
 
