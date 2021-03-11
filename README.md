@@ -104,7 +104,7 @@ Com isso a API está instalada.
 ###### Atualizar Estado
 
     method: PUT  
-    url: http://localhost:8000/api/estado/update/{id}
+    url: http://localhost:8000/api/estado/{id}
     Headers: Authorization: Bearer {token}
     Content-Type: application/json
     Accept: application/json
